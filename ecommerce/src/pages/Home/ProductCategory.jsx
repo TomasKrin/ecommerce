@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import { useNavigate, generatePath } from "react-router-dom";
+import { PRODUCTS_LIST_PATH } from "../../routes/const";
 
 const ProductCategory = ({ name, image }) => {
+  const navigate = useNavigate();
+  const productPath = generatePath(PRODUCTS_LIST_PATH, { category: name });
+
   return (
-    <ProductItem>
+    <ProductItem onClick={() => navigate(productPath)}>
       <div>
         <p>{name}</p>
         <span>13</span>
