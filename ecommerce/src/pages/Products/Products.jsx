@@ -1,14 +1,16 @@
 import { useContext, useState } from "react";
 import { ProductContext } from "../../contexts/ProductContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, generatePath } from "react-router-dom";
 import styled from "styled-components";
 import { capitalizeFirstLetter } from "../../utils/string";
 import Select from "react-select";
 import { getUniqueArrayItems } from "../../utils/array";
 import { screenSize } from "../../consts/mediaQueries";
 import { lightBorderColor } from "../../consts/color";
+import { PRODUCT_PATH } from "../../routes/const";
 
 export const Products = () => {
+  const navigate = useNavigate();
   const { category } = useParams();
   const { products } = useContext(ProductContext);
   const [selectedColors, setSelectedColors] = useState([]);
@@ -35,6 +37,11 @@ export const Products = () => {
     ? filteredByColorProducts
     : categoryProducts;
 
+  const navigateToProduct = (category, productId) => {
+    const path = generatePath(PRODUCT_PATH, { category, productId });
+    navigate(path);
+  };
+
   return (
     <div>
       <FiltersContainer>
@@ -50,7 +57,7 @@ export const Products = () => {
       </FiltersContainer>
       <ProductsContainer>
         {filteredProducts.map((product) => (
-          <ProductItem key={product.id}>
+          <ProductItem key={product.id} onClick={() => navigateToProduct(category, product.id)}>
             <img src={product.picUrl[0]} alt={product.name} />
             <ProductProperty>{capitalizeFirstLetter(product.name.toLowerCase())}</ProductProperty>
             <ProductProperty>€ {product.price}</ProductProperty>
@@ -64,7 +71,7 @@ export const Products = () => {
 export default Products;
 
 const FiltersContainer = styled.div`
-  padding: 40px 40px 0px 40px;
+  margin-bottom: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   @media (max-width: ${screenSize.tablet}) {
@@ -80,7 +87,6 @@ const Filter = styled.div`
 `;
 
 const ProductsContainer = styled.div`
-  padding: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   @media (max-width: ${screenSize.tablet}) {
