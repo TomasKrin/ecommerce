@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ProductCategory from "./ProductCategory";
 
 const Home = () => {
-  const { products } = useContext(ProductContext);
+  const { products, isLoading, error } = useContext(ProductContext);
 
   const uniqCategories = getUniqueArrayItems(products.map((product) => product.type));
 
@@ -15,6 +15,14 @@ const Home = () => {
     name: category,
     image: products.find((product) => product.type === category).picUrl,
   }));
+
+  if (isLoading) {
+    return "Kraunasi..";
+  }
+
+  if (error) {
+    return error;
+  }
 
   return (
     <Container>
