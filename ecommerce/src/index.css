@@ -9,6 +9,7 @@ button {
   -moz-osx-font-smoothing: grayscale;
   color: #887569;
   background-color: #fafafa;
+  box-sizing: border-box;
 }
 
 h1,
@@ -20,6 +21,10 @@ h6,
 p,
 ul {
   margin: 0;
+}
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 code {
