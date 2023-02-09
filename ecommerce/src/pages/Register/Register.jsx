@@ -5,36 +5,42 @@ import { screenSize } from "../../consts/mediaQueries";
 import Button from "../../components/Button/Button";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import { LOGIN } from "../../routes/const";
+import { LOGIN_PATH } from "../../routes/const";
+import { createUser } from "../../api/user";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
+  first_name: Yup.string().required("Required"),
+  last_name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid Email").required("Required"),
   password: Yup.string().required("Required"),
-  confirmPassword: Yup.string()
+  confirm_password: Yup.string()
     .required("Please retype your password.")
     .oneOf([Yup.ref("password")], "Your passwords do not match."),
 });
 
 const Register = () => {
+  const navigate = useNavigate();
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      resetForm();
-    }, 2000);
+    const { confirm_password, ...user } = values;
+    createUser(user)
+      .then(() => {
+        navigate(LOGIN_PATH);
+      })
+      .catch((error) => {
+        console.error("failed to create user", error);
+      });
   };
 
   return (
     <div>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          first_name: "",
+          last_name: "",
           email: "",
           password: "",
-          confirmPassword: "",
+          confirm_password: "",
         }}
         validationSchema={validationSchema}
         // validate={(values) => {
@@ -57,19 +63,19 @@ const Register = () => {
           //name turi but kaip ir inital value key
           <StyledForm>
             <Title>Register Your Account</Title>
-            <FormikInput name="firstName" placeholder="First Name" />
-            <FormikInput name="lastName" placeholder="Last Name" />
+            <FormikInput name="first_name" placeholder="First Name" />
+            <FormikInput name="last_name" placeholder="Last Name" />
             <FormikInput type="email" name="email" placeholder="Email" />
             <FormikInput type="password" name="password" placeholder="Password" />
             <FormikInput
               type="password"
-              name="confirmPassword"
+              name="confirm_password"
               placeholder="Repeat Your Password"
             />
             <Button type="submit" disabled={isSubmitting}>
               Submit
             </Button>
-            <StyledLink to={LOGIN}>Have an Account? Login...</StyledLink>
+            <StyledLink to={LOGIN_PATH}>Have an Account? Login...</StyledLink>
           </StyledForm>
         )}
       </Formik>
