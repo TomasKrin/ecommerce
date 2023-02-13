@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { screenSize } from "../../consts/mediaQueries";
 import Button from "../../components/Button/Button";
 import { CHECKOUT_PATH, REGISTER_PATH } from "../../routes/const";
-import { loginUser } from "../../api/user";
+import { useLoginUser } from "../../hooks/user";
 import { UserContext } from "../../contexts/UserContext";
 import FormikInput from "../../components/Formik/FormikInput";
 
@@ -18,6 +18,8 @@ const validationSchema = Yup.object().shape({
 const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+
+  const { mutateAsync: loginUser } = useLoginUser();
 
   const handleSubmit = (values) => {
     loginUser(values)

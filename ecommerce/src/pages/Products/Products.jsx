@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { ProductContext } from "../../contexts/ProductContext";
+import { useState } from "react";
 import { useParams, useNavigate, generatePath } from "react-router-dom";
 import styled from "styled-components";
 import { capitalizeFirstLetter } from "../../utils/string";
@@ -8,11 +7,13 @@ import { getUniqueArrayItems } from "../../utils/array";
 import { screenSize } from "../../consts/mediaQueries";
 import { lightBorderColor } from "../../consts/color";
 import { PRODUCT_PATH } from "../../routes/const";
+import { useProducts } from "../../hooks/products";
 
 export const Products = () => {
   const navigate = useNavigate();
+  const { data } = useProducts();
+  const products = data || [];
   const { category } = useParams();
-  const { products } = useContext(ProductContext);
   const [selectedColors, setSelectedColors] = useState([]);
 
   const isCategory = (product) => product.type === category;
@@ -105,6 +106,8 @@ const ProductItem = styled.div`
   flex-direction: column;
   border-radius: 5px;
   border: 1px solid ${lightBorderColor};
+  cursor: pointer;
+
   img {
     border-radius: 5px;
     width: 100%;

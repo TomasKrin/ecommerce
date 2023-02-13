@@ -6,7 +6,7 @@ import Button from "../../components/Button/Button";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { LOGIN_PATH } from "../../routes/const";
-import { createUser } from "../../api/user";
+import { useCreateUser } from "../../hooks/user";
 import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
@@ -21,6 +21,11 @@ const validationSchema = Yup.object().shape({
 
 const Register = () => {
   const navigate = useNavigate();
+
+  //galima issitraukt isLoading ir error is useCreateUser
+
+  const { mutateAsync: createUser } = useCreateUser();
+
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     const { confirm_password, ...user } = values;
     createUser(user)
