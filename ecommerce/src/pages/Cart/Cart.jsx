@@ -10,15 +10,12 @@ import { screenSize } from "../../consts/mediaQueries";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import { LOGIN_PATH, CHECKOUT_PATH } from "../../routes/const";
-import { useProducts } from "../../hooks/products";
-import { UserContext } from "../../contexts/UserContext";
+import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const Cart = () => {
-  const { data } = useProducts();
-  const products = data || [];
-  const cartProduct = products.slice(0, 2);
-  console.log(cartProduct);
+  const { cartItems } = useContext(CartContext);
   const { isLoggedIn } = useContext(UserContext);
 
   return (
@@ -28,7 +25,7 @@ const Cart = () => {
         <p>Items are reserved for 30 minutes</p>
       </Header>
       <CartContainer>
-        {cartProduct.map((product) => (
+        {cartItems.map((product) => (
           <CartItem key={product.id}>
             <img src={product.picUrl[0]} alt={product.name} />
             <div>
@@ -39,6 +36,7 @@ const Cart = () => {
               <p>{product.name}</p>
               <CartItemColor>{product.color}</CartItemColor>
             </div>
+            <ItemQuantity>x {product.quantity}</ItemQuantity>
           </CartItem>
         ))}
       </CartContainer>
@@ -99,4 +97,11 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
+`;
+
+const ItemQuantity = styled.div`
+  flex: 1;
+  align-self: center;
+  margin-right: 24px;
+  text-align: right;
 `;
