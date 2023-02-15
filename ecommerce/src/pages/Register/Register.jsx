@@ -8,12 +8,13 @@ import { Link } from "react-router-dom";
 import { LOGIN_PATH } from "../../routes/const";
 import { useCreateUser } from "../../hooks/user";
 import { useNavigate } from "react-router-dom";
+import { requiredField } from "../../consts/validations";
 
 const validationSchema = Yup.object().shape({
-  first_name: Yup.string().required("Required"),
-  last_name: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid Email").required("Required"),
-  password: Yup.string().required("Required"),
+  first_name: Yup.string().required(requiredField),
+  last_name: Yup.string().required(requiredField),
+  email: Yup.string().email("Invalid Email").required(requiredField),
+  password: Yup.string().required(requiredField),
   confirm_password: Yup.string()
     .required("Please retype your password.")
     .oneOf([Yup.ref("password")], "Your passwords do not match."),

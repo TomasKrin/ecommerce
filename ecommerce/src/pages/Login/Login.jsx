@@ -9,10 +9,11 @@ import { CHECKOUT_PATH, REGISTER_PATH } from "../../routes/const";
 import { useLoginUser } from "../../hooks/user";
 import { UserContext } from "../../contexts/UserContext";
 import FormikInput from "../../components/Formik/FormikInput";
+import { requiredField } from "../../consts/validations";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid Email").required("Required"),
-  password: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid Email").required(requiredField),
+  password: Yup.string().required(requiredField),
 });
 
 const Login = () => {
