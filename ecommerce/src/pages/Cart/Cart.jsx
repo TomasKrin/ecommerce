@@ -5,7 +5,6 @@
 //4. AuthContext susitvatkome, kad saugotu useri
 
 import styled from "styled-components";
-import { euroSymbol } from "../../consts/currency";
 import { screenSize } from "../../consts/mediaQueries";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
@@ -13,6 +12,7 @@ import { LOGIN_PATH, CHECKOUT_PATH } from "../../routes/const";
 import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import CartItem from "./CartItem";
 
 const Cart = () => {
   const { cartItems } = useContext(CartContext);
@@ -26,18 +26,7 @@ const Cart = () => {
       </Header>
       <CartContainer>
         {cartItems.map((product) => (
-          <CartItem key={product.id}>
-            <img src={product.picUrl[0]} alt={product.name} />
-            <div>
-              <CartItemPrice>
-                {euroSymbol}
-                {product.price}
-              </CartItemPrice>
-              <p>{product.name}</p>
-              <CartItemColor>{product.color}</CartItemColor>
-            </div>
-            <ItemQuantity>x {product.quantity}</ItemQuantity>
-          </CartItem>
+          <CartItem key={product.id} product={product} />
         ))}
       </CartContainer>
       <ButtonContainer>
@@ -68,40 +57,11 @@ const Header = styled.div`
 
 const CartContainer = styled.div`
   background-color: #ffffff;
-`;
-
-const CartItem = styled.div`
-  display: flex;
-  padding: 20px 30px 20px 0px;
-  background-color: #ffffff;
-  img {
-    width: 100px;
-    margin-right: 8px;
-    object-fit: contain;
-  }
-`;
-
-const CartItemPrice = styled.p`
-  font-size: 22px;
-  font-weight: 700;
-  margin-top: 16px;
-  margin-bottom: 8px;
-`;
-
-const CartItemColor = styled.p`
-  font-weight: 300;
-  margin-top: 8px;
+  margin-bottom: 24px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
-`;
-
-const ItemQuantity = styled.div`
-  flex: 1;
-  align-self: center;
-  margin-right: 24px;
-  text-align: right;
 `;
