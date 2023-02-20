@@ -25,6 +25,7 @@ const PaymentForm = () => {
   const { resetCart } = useContext(CartContext);
   const handleSubmit = (values) => {
     resetCart();
+    console.log(values);
   };
 
   return (
