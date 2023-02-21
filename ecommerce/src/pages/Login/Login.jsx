@@ -10,6 +10,7 @@ import { useLoginUser } from "../../hooks/user";
 import { UserContext } from "../../contexts/UserContext";
 import FormikInput from "../../components/Formik/FormikInput";
 import { requiredField } from "../../consts/validations";
+import { toast } from "react-hot-toast";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid Email").required(requiredField),
@@ -27,6 +28,7 @@ const Login = () => {
       .then((response) => {
         setUser(response);
         navigate(CHECKOUT_PATH);
+        toast.success("Successfully logged in!");
       })
       .catch((error) => {
         console.log("Failed to login:", error);

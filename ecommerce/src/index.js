@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ContextsProvider from "./contexts/ContextsProvider";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,6 +13,7 @@ root.render(
     <BrowserRouter>
       <ContextsProvider>
         <App />
+        <Toaster position="bottom-left" />
       </ContextsProvider>
     </BrowserRouter>
   </React.StrictMode>

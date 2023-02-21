@@ -9,6 +9,7 @@ import { LOGIN_PATH } from "../../routes/const";
 import { useCreateUser } from "../../hooks/user";
 import { useNavigate } from "react-router-dom";
 import { requiredField } from "../../consts/validations";
+import { toast } from "react-hot-toast";
 
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required(requiredField),
@@ -32,9 +33,11 @@ const Register = () => {
     createUser(user)
       .then(() => {
         navigate(LOGIN_PATH);
+        toast.success("Successfully registered!");
       })
       .catch((error) => {
         console.error("failed to create user", error);
+        toast.error("Registration Failed!");
       });
   };
 

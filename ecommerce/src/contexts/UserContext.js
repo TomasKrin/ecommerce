@@ -6,8 +6,14 @@ const UserProvider = ({ children }) => {
 
   const isLoggedIn = !!user;
 
+  const handleLogOut = () => {
+    setUser(null);
+  };
+
   return (
-    <UserContext.Provider value={{ user, isLoggedIn, setUser }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, isLoggedIn, setUser, handleLogOut }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 export { UserContext, UserProvider };
